@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import EquipoMedico from "./components/EquipoMedico";
@@ -6,9 +6,28 @@ import Testimonios from "./components/Testimonios";
 import AppNavbar from "./components/Navbar";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
+import AppointmentForm from "./components/AppointmentForm";
 import "./App.css";
 
+interface Doctor {
+  nombre: string;
+  especialidad: string;
+}
+
+const handleAppointmentSubmit = (values: AppointmentValues) => {
+  console.log("Cita agendada:", values);
+};
+
 function App() {
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
+
+  useEffect(() => {
+    fetch("src/assets/equipo.json")
+      .then((response) => response.json())
+      .then((data) => setDoctors(data))
+      .catch((error) => console.error("Error al cargar los doctores:", error));
+  }, []);
+
   return (
     <AuthProvider>
       <Router>
@@ -28,7 +47,7 @@ function App() {
             path="/citas"
             element={
               <ProtectedRoute requiredRole="admin">
-                <h1>Página de Citas (Por implementar)</h1>
+                <AppointmentForm doctors={doctors} onAppointmentSubmit={handleAppointmentSubmit} />
               </ProtectedRoute>
             }
           />

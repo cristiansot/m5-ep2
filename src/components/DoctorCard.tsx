@@ -58,7 +58,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
         alt={`Foto de ${doctor.nombre}`}
         className="card-img-top img-fluid" 
       />
-    <div className="card-body">
+      <div className="card-body">
         <h2 className="card-title">{doctor.nombre}</h2>
         <div className='card-info'>
           <h5 style={{ color: '#13628f'}}><strong>Especialidad:</strong> {doctor.especialidad}</h5>
