@@ -1,3 +1,16 @@
+## Accesos de Usuarios
+
+- **Administrador (`admin`)**:
+
+  - Usuario: `admin`
+  - Contraseña: `admin`
+  - Acceso completo a todas las funcionalidades (Home, Equipo Médico, Citas y Testimonios).
+
+- **Usuario (`user`)**:
+  - Usuario: `user`
+  - Contraseña: `user`
+  - Acceso limitado (solo puede ver el Home y Testimonios).
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
