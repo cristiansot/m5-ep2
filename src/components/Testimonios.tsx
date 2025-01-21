@@ -47,10 +47,9 @@ const Testimonios: React.FC = () => {
       <Row>
         {testimoniosData.map((testimonio) => (
           <Col key={testimonio.id} sm={12} md={6} lg={4} className="mb-4 d-flex justify-content-center">
-            <Card style={{ width: '20rem', borderColor: 'white', color: "#444444" }}>
+            <Card style={{ width: '20rem', borderColor: 'white', color: "#444444", boxShadow: 'none'  }}>
               <Card.Img variant="top" src={testimonio.img} style={{ borderRadius: 150 }} />
               <Card.Body>
-                <Card.Title>{testimonio.title}</Card.Title>
                 <Card.Text style={{ color: "#5f6061" }}>
                   {testimonio.text}
                   <br />

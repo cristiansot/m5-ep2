@@ -1,41 +1,39 @@
 import React, { useState } from "react";
 import { Navbar, Container, Nav, Button, Modal, Form } from "react-bootstrap";
-import logotipo from '../assets/img/logotipo.png';  
+import { Link } from "react-router-dom";
+import logotipo from "../assets/img/logotipo.png";
 
-const AppNavbar = ({ onSectionChange }) => {
-  const [activeSection, setActiveSection] = useState("Home");
+const AppNavbar = () => {
   const [showLogin, setShowLogin] = useState(false);
-
-  const handleSectionClick = (section) => {
-    setActiveSection(section);
-    onSectionChange(section);
-  };
 
   const handleLoginClose = () => setShowLogin(false);
   const handleLoginShow = () => setShowLogin(true);
 
   return (
     <>
-      <Navbar style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', marginBottom: 12, marginTop: 20 }} sticky="top">
+      <Navbar
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.8)", marginBottom: 12, marginTop: 20 }}
+        sticky="top"
+      >
         <Container>
-          <Navbar.Brand href="#home">
-            <img
-              src={logotipo}  
-              alt="Mi Clínica"
-              style={{ height: 80 }}
-            />
+          <Navbar.Brand>
+            <Link to="/">
+              <img src={logotipo} alt="Mi Clínica" style={{ height: 80 }} />
+            </Link>
           </Navbar.Brand>
           <Nav className="text-center mt-4 mb-4">
-            {["Home", "Equipo Médico", "Citas", "Testimonios"].map((section) => (
-              <Nav.Link
-                key={section}
-                href="#"
-                onClick={() => handleSectionClick(section)}
-                active={activeSection === section}
-              >
-                {section}
-              </Nav.Link>
-            ))}
+            <Nav.Link as={Link} to="/" style={{ textDecoration: "none" }}>
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/equipo-medico" style={{ textDecoration: "none" }}>
+              Equipo Médico
+            </Nav.Link>
+            <Nav.Link as={Link} to="/citas" style={{ textDecoration: "none" }}>
+              Citas
+            </Nav.Link>
+            <Nav.Link as={Link} to="/testimonios" style={{ textDecoration: "none" }}>
+              Testimonios
+            </Nav.Link>
             <Button variant="outline-primary" onClick={handleLoginShow}>
               Login
             </Button>

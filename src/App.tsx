@@ -1,49 +1,22 @@
-import { useState, useEffect } from 'react';
-import DoctorCard from './components/DoctorCard';
-import Navbar from './components/Navbar'
-import Home from './components/Home';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import EquipoMedico from "./components/EquipoMedico";
+import Testimonios from "./components/Testimonios";
+import AppNavbar from "./components/Navbar"; 
 import './App.css';
 
-interface Doctor {
-  nombre: string;
-  imagen: string;
-  especialidad: string;
-  resumen: string;
-  años_experiencia: number;
-  valor_consulta: number;
-  informacion_adicional: {
-    horarios_disponibles: string[];
-    contacto: {
-      telefono: string;
-      email: string;
-    };
-  };
-}
-
 function App() {
-  const [equipo, setEquipo] = useState<Doctor[]>([]);
-
-  useEffect(() => {
-    fetch('src/assets/equipo.json')
-      .then((response) => response.json())
-      .then((data) => setEquipo(data))
-      .catch((error) => console.error('Error al cargar los datos:', error));
-  }, []);
-
   return (
-    <>
-    <Home />
-      <div className="container" style={{ marginBottom: 40 }}>
-        <div className="row">
-          {equipo.map((doctor, index) => (
-            <div className="col-md-4" key={index}>
-              <DoctorCard doctor={doctor} />
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
+    <Router>
+      <AppNavbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/equipo-medico" element={<EquipoMedico />} />
+        <Route path="/testimonios" element={<Testimonios />} />
+        <Route path="/citas" element={<h1>Página de Citas (Por implementar)</h1>} />
+      </Routes>
+    </Router>
   );
 }
 

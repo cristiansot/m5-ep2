@@ -1,12 +1,9 @@
 import React from 'react';
-import Navbar from '../components/Navbar'; 
-import Carousel from '../components/Carousel'; 
-import Testimonios from '../components/Testimonios'; 
+import Carousel from '../components/Carousel';
 
 const Home: React.FC = () => {
   return (
     <div>
-      <Navbar />
       <Carousel />
       <h2 style={{ marginTop: 30, color: "#5f6061" }}>Nuestra Historia</h2>
       <p style={{ marginTop: 30, fontSize: 18, color: "#868686" }}>
@@ -14,12 +11,14 @@ const Home: React.FC = () => {
         <br />
       </p>
       <h2 style={{ color: "#5f6061" }}>Nuestra Misión</h2>
-      <p>Nuestra Misión es entregar a la persona y a su familia una Atención de Salud Integral y de calidad que contribuya a su bienestar, respetando su dignidad, por equipos de gran calidad humana y excelencia profesional y académica.<br /></p>
+      <p>
+        Nuestra Misión es entregar a la persona y a su familia una Atención de Salud Integral y de calidad que contribuya a su bienestar, respetando su dignidad, por equipos de gran calidad humana y excelencia profesional y académica.<br />
+      </p>
       <br />
       <h2 style={{ color: "#5f6061" }}>Nuestra Visión</h2>
-      <p>Nuestra Visión es ser la Red de Salud líder en Latinoamérica en la práctica clínica de excelencia y en el desarrollo de conocimientos para el cuidado de la persona, en colaboración con otras instituciones nacionales y extranjeras.
+      <p>
+        Nuestra Visión es ser la Red de Salud líder en Latinoamérica en la práctica clínica de excelencia y en el desarrollo de conocimientos para el cuidado de la persona, en colaboración con otras instituciones nacionales y extranjeras.
       </p>
-      <Testimonios />
     </div>
   );
 };
