@@ -26,7 +26,7 @@ const AppNavbar = ({ onSectionChange }) => {
             />
           </Navbar.Brand>
           <Nav className="text-center mt-4 mb-4">
-            {["Home", "Equipo Médico", "Citas"].map((section) => (
+            {["Home", "Equipo Médico", "Citas", "Testimonios"].map((section) => (
               <Nav.Link
                 key={section}
                 href="#"

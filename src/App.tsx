@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DoctorCard from './components/DoctorCard';
 import Navbar from './components/Navbar'
+import Home from './components/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -32,7 +33,7 @@ function App() {
 
   return (
     <>
-    <Navbar />
+    <Home />
       <div className="container" style={{ marginBottom: 40 }}>
         <div className="row">
           {equipo.map((doctor, index) => (
