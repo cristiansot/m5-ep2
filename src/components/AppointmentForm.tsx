@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import "../assets/css/form.css";
@@ -11,6 +11,7 @@ interface Doctor {
 interface AppointmentFormProps {
   doctors: Doctor[];
   onAppointmentSubmit: (values: AppointmentValues) => void;
+  token: string;
 }
 
 interface AppointmentValues {
@@ -19,8 +20,14 @@ interface AppointmentValues {
   appointmentDate: string;
 }
 
-const AppointmentForm: React.FC<AppointmentFormProps> = ({ doctors, onAppointmentSubmit }) => {
+const AppointmentForm: React.FC<AppointmentFormProps> = ({
+  doctors,
+  onAppointmentSubmit,
+  token,
+}) => {
   const patientNameRef = useRef<HTMLInputElement>(null);
+  const [apiResponse, setApiResponse] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (patientNameRef.current) {
@@ -38,6 +45,37 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ doctors, onAppointmen
       .min(new Date(), "La fecha no puede ser en el pasado"),
   });
 
+  const submitAppointment = async (values: AppointmentValues) => {
+    try {
+      setIsSubmitting(true);
+      setApiResponse(null);
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/appointments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+          "x-api-key": "tu_api_key_segura", 
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setApiResponse("Cita agendada exitosamente");
+        onAppointmentSubmit(values); 
+      } else {
+        const errorData = await response.json();
+        setApiResponse(`Error: ${errorData.message || "No se pudo agendar la cita"}`);
+      }
+    } catch (error) {
+      console.error("Error al enviar la cita:", error);
+      setApiResponse("Error al conectar con el servidor");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="formContainer">
       <h2 style={{ marginTop: 40, padding: 20, color: "#5f6061" }}>Agendar Cita</h2>
@@ -49,11 +87,11 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ doctors, onAppointmen
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          onAppointmentSubmit(values); 
+          submitAppointment(values);
           resetForm();
         }}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <Form className="appointmentForm">
             <div>
               <label className="titleLabel" htmlFor="patientName">
@@ -107,10 +145,20 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ doctors, onAppointmen
             <button
               type="submit"
               disabled={isSubmitting}
-              style={{ marginTop: 20, borderRadius: 10 }}
+              style={{
+                marginTop: 20,
+                borderRadius: 10,
+                opacity: isSubmitting ? 0.6 : 1,
+              }}
             >
-              Agendar
+              {isSubmitting ? "Enviando..." : "Agendar"}
             </button>
+
+            {apiResponse && (
+              <div style={{ marginTop: 20, color: apiResponse.startsWith("Error") ? "red" : "green" }}>
+                {apiResponse}
+              </div>
+            )}
           </Form>
         )}
       </Formik>
