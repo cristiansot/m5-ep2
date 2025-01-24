@@ -1,3 +1,10 @@
+## Ejecutar el servidor
+
+- **cd server:**
+
+  ```bash
+   npm run dev
+   ```
 ## Accesos de Usuarios
 
 - **Administrador (`admin`)**:
