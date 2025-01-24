@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Navbar, Container, Nav, Button, Modal, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logotipo from "../assets/img/logotipo.png";
 import { useAuth } from "../context/AuthContext";
 
 const AppNavbar: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const [username, setUsername] = useState(""); 
-  const [password, setPassword] = useState(""); 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const { isAuthenticated, role, login, logout } = useAuth();
-
+  
+  const navigate = useNavigate(); 
+  
   const handleLoginClose = () => setShowLogin(false);
   const handleLoginShow = () => setShowLogin(true);
 
@@ -19,6 +21,11 @@ const AppNavbar: React.FC = () => {
     } else {
       alert("Credenciales inválidas");
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/"); 
   };
 
   return (
@@ -58,7 +65,7 @@ const AppNavbar: React.FC = () => {
               </Button>
             )}
             {isAuthenticated && (
-              <Button variant="outline-danger" onClick={logout}>
+              <Button variant="outline-danger" onClick={handleLogout}>
                 Logout
               </Button>
             )}
@@ -78,7 +85,7 @@ const AppNavbar: React.FC = () => {
                 type="text"
                 placeholder="Ingresa tu nombre"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)} 
+                onChange={(e) => setUsername(e.target.value)}
               />
             </Form.Group>
 
@@ -88,7 +95,7 @@ const AppNavbar: React.FC = () => {
                 type="password"
                 placeholder="Contraseña"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)} 
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
           </Form>

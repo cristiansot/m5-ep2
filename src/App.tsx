@@ -8,18 +8,26 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import AppointmentForm from "./components/AppointmentForm";
 import "./App.css";
+import Carousel from './components/Carousel'
 
 interface Doctor {
   nombre: string;
   especialidad: string;
 }
 
-const handleAppointmentSubmit = (values: AppointmentValues) => {
-  console.log("Cita agendada:", values);
+interface AppointmentValues {
+  patientName: string;
+  doctor: string;
+  appointmentDate: string;
+}
+
+const handleAppointmentSubmit = (values: AppointmentValues, setAppointments: React.Dispatch<React.SetStateAction<any[]>>) => {
+  setAppointments((prevAppointments) => [...prevAppointments, values]);
 };
 
 function App() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [appointments, setAppointments] = useState<AppointmentValues[]>([]); 
 
   useEffect(() => {
     fetch("src/assets/equipo.json")
@@ -47,7 +55,19 @@ function App() {
             path="/citas"
             element={
               <ProtectedRoute requiredRole="admin">
-                <AppointmentForm doctors={doctors} onAppointmentSubmit={handleAppointmentSubmit} />
+                <div>
+                  <Carousel />
+                  <h2>Citas Agendadas</h2>
+                  <ul>
+                    {appointments.map((appointment, index) => (
+                      <li key={index}>
+                        {appointment.patientName} - {appointment.doctor} - {appointment.appointmentDate}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <AppointmentForm doctors={doctors} onAppointmentSubmit={(values) => handleAppointmentSubmit(values, setAppointments)} />
+                </div>
               </ProtectedRoute>
             }
           />

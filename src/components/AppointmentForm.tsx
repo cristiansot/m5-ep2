@@ -49,7 +49,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ doctors, onAppointmen
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          onAppointmentSubmit(values);
+          onAppointmentSubmit(values); 
           resetForm();
         }}
       >
